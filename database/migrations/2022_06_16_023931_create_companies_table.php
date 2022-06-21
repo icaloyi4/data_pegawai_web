@@ -13,11 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('master_positions', function (Blueprint $table) {
+        Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('department_id')->constrained();
             $table->string('name');
-            $table->integer('level');
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
+            $table->string('location')->nullable();
+            $table->string('city')->nullable();
+            $table->string('country')->nullable();
+            $table->string('email')->unique();
+            $table->boolean('isActive')->default(true);
             $table->timestamps();
             $table->string('created_by');
             $table->string('update_by');
@@ -31,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('master_positions');
+        Schema::dropIfExists('companies');
     }
 };

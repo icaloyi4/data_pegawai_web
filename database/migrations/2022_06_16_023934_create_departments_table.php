@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('master_departments', function (Blueprint $table) {
+        Schema::create('departments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('companies_id')->constrained();
+            $table->foreignId('company_id')->constrained();
             $table->string('name');
             $table->timestamps();
             $table->string('created_by');
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('master_departments');
+        Schema::dropIfExists('departments');
     }
 };

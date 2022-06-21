@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('master_users', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
@@ -21,6 +21,10 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->date('birthday')->nullable();
             $table->date('join_at')->nullable();
+            $table->foreignId('company_id')->constrained();
+            $table->foreignId('department_id')->nullable()->constrained();
+            $table->foreignId('position_id')->nullable()->constrained();
+            $table->foreignId('role_id')->constrained();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
@@ -38,6 +42,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('master_users');
+        Schema::dropIfExists('users');
     }
 };

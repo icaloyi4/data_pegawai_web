@@ -13,15 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('master_companies', function (Blueprint $table) {
-            $$table->id();
+        Schema::create('positions', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('department_id')->constrained();
             $table->string('name');
-            $table->string('phone')->nulable();
-            $table->string('address')->nulable();
-            $table->string('location')->nulable();
-            $table->string('city')->nulable();
-            $table->string('country')->nulable();
-            $table->string('email')->unique();
+            $table->integer('level');
             $table->timestamps();
             $table->string('created_by');
             $table->string('update_by');
@@ -35,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('master_companies');
+        Schema::dropIfExists('positions');
     }
 };
