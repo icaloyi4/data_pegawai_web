@@ -29,9 +29,10 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->boolean('isActive')->default(false);
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
             $table->string('created_by');
-            $table->string('update_by');
+            $table->string('updated_by');
         });
     }
 

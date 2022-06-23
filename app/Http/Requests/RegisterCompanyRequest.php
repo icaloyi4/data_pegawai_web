@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\ResponseDefaultModel;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class RegisterCompanyRequest extends FormRequest
 {
@@ -26,11 +29,28 @@ class RegisterCompanyRequest extends FormRequest
         return [
             //
             'user_name'=>['required','string'],
-            'email'=>['required','email'],
-            'phone'=>['required','numeric','min:8'],
+            'user_email'=>['required','email'],
+            'password' => [
+                'required',
+                'confirmed',
+                'string',
+                'min:8',             // must be at least 8 characters in length
+            ],
+            'user_phone'=>['required','numeric','min:8'],
+            'user_birthday'=>['required','date'],
+            'user_join_at'=>['required','date'],
             'company_name'=>['required','string'],
             'company_email'=>['required','email'],
-            'company_phone'=>['required','numeric','min:8']
+            'company_phone'=>['required','numeric','min:8'],
+            'company_address'=>['nullable'],
+            'company_location'=>['nullable'],
+            'company_city'=>['nullable'],
+            'company_country'=>['nullable']
         ];
+    }
+
+    protected function failedValidation(Validator $var)
+    {
+        throw new HttpResponseException(response()->json((new ResponseDefaultModel(false, 422, 'Data tidak valid', $var->errors())),422));
     }
 }
