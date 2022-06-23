@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+
 
 class AuthController extends BaseController
 {
@@ -35,8 +35,20 @@ class AuthController extends BaseController
 
     public function logout()
     {
-        $user = Auth::user();
-        return response()->json($user); 
+        try {
+            if (Auth::check()) {
+                $userToken = Auth::user()->token();
+                $userToken->revoke();
+                $user = User::find(Auth::id());
+                $user->remember_token = null;
+                $user->save();
+                return $this->succesResponse($user, 'Logout Success');
+            }
+            return $this->errorResponse(null, 'User already log out', 422);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage());
+        }
+        
     }
         
 }

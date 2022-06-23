@@ -32,7 +32,8 @@ class User extends Authenticatable
         'remember_token',
         'isActive',
         'created_by',
-        'updated_by'
+        'updated_by',
+        'NIK'
     ];
 
     /**

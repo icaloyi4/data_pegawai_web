@@ -22,7 +22,7 @@ class RegisterCompanyController extends BaseController
     }
     public function register(RegisterCompanyRequest $req, User $reqUser)
     {
-        // DB::beginTransaction();
+        DB::beginTransaction();
         try {
                 $idCompanies = DB::table('companies')-> insertGetId(array(
                     'name' => $req->company_name,
@@ -45,13 +45,14 @@ class RegisterCompanyController extends BaseController
                     'role_id' => 1,
                     'password' => Hash::make(($req->password)),
                     'created_by' => $req->user_name,
-                    'updated_by' => $req->user_name,
+                    'updated_by' => $req->user_name
                 ));
                 DB::commit();
 
-            $userToken = User::where('email', $req->user_email)->firstOrFail();
+            $userToken = User::where('email', $req->idUser)->firstOrFail();
             $token =  $userToken->createToken('DataPegawai')->accessToken;
             $userToken->remember_token = $token;
+            $userToken->NIK = ($req->user_nik==null)?$idUser:$req->user_nik;
             $userToken->save();
 
             return $this->succesResponse($userToken, 'Registration success');

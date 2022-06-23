@@ -2,8 +2,13 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use App\Models\ResponseDefaultModel;
+use Exception;
 use Throwable;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Mockery\Exception\InvalidOrderException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -43,8 +48,21 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
+        $this->reportable(function (Exception $e) {
             //
+            return response()->json(new ResponseDefaultModel(false, 500,$e->getMessage(), null),500);
         });
+        $this->renderable(function (NotFoundHttpException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json(new ResponseDefaultModel(false, 404,"Not Found", null),404);
+            }
+        });
+    }
+
+    protected function unauthenticated($request, AuthenticationException $e)
+    {
+        return $request->expectsJson()
+                    ? response()->json(new ResponseDefaultModel(false, 401,$e->getMessage(), null),401)
+                    : redirect()->guest(route('login'));
     }
 }

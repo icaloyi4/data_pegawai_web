@@ -39,6 +39,7 @@ class RegisterCompanyRequest extends FormRequest
             'user_phone'=>['required','numeric','min:8'],
             'user_birthday'=>['required','date'],
             'user_join_at'=>['required','date'],
+            'user_nik'=>['nullable'],
             'company_name'=>['required','string'],
             'company_email'=>['required','email'],
             'company_phone'=>['required','numeric','min:8'],
