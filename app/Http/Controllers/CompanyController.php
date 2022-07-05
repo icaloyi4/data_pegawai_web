@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CompanyRequest;
-use App\Http\Resources\CompanyResource;
+use App\Models\User;
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\CompanyResource;
 
 class CompanyController extends BaseController
 {
@@ -17,8 +18,14 @@ class CompanyController extends BaseController
     public function index()
     {
         //
-        $company = Company::where('isActive','1')->get();
-        return $this->succesResponse(CompanyResource::collection($company));
+        $user = User::find(Auth::id());
+        if($user->role_id == 1){
+            $company = Company::where('isActive','1')->get();
+            return $this->succesResponse(CompanyResource::collection($company));
+        } else {
+            return $this->errorResponse(null,'Roles not allowed');
+        }
+        
     }
 
     /**
@@ -41,7 +48,13 @@ class CompanyController extends BaseController
     public function show(Company $company)
     {
         //
-        return $this->succesResponse($company);
+        $user = User::find(Auth::id());
+        if($user->role_id == 1){
+            return $this->succesResponse($company);
+        } else {
+            return $this->errorResponse(null,'Roles not allowed');
+        }
+        
     }
 
     /**
@@ -54,9 +67,18 @@ class CompanyController extends BaseController
     public function update(Request $request, Company $company)
     {
         
-        $company->update($request->all());
+        $user = User::find(Auth::id());
+        if($user->role_id == 1){
+            $usernya = User::find(Auth::id());
+            $company->updated_by = $usernya->name;
+            $company->updated_at = now();
+            $company->update($request->all());
+            
+            return $this->succesResponse(new CompanyResource($company));
+        } else {
+            return $this->errorResponse(null,'Roles not allowed');
+        }
         
-        return $this->succesResponse(new CompanyResource($company));
     }
 
     /**
@@ -68,15 +90,27 @@ class CompanyController extends BaseController
     public function destroy(Company $company)
     {
         //
-        return $this->errorResponse(null,'Delete success', 204);
+        $user = User::find(Auth::id());
+        if($user->role_id == 1){
+            return $this->errorResponse(null,'Delete success', 204);
+        } else {
+            return $this->errorResponse(null,'Roles not allowed');
+        }
+        
     }
     
     public function deleteById(Request $req)
     {
-        $company = Company::find($req->id);
-        $company->isActive = 0;
-        $company->save();
+        $user = User::find(Auth::id());
+        if($user->role_id == 1){
+            $company = Company::find($req->id);
+            $company->isActive = 0;
+            $company->save();
 
-        return $this->errorResponse(null,'Delete success', 204);
+            return $this->errorResponse(null,'Delete success', 204);
+        } else {
+            return $this->errorResponse(null,'Roles not allowed');
+        }
+        
     }
 }
