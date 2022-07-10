@@ -23,12 +23,11 @@ class UserController extends BaseController
     {
         //
         $user = User::find(Auth::id());
-        if($user->role_id = 1){
-            $userAll = User::where('company_id',$user->company_id)->get();
+        if ($user->role_id = 1) {
+            $userAll = User::where('company_id', $user->company_id)->where('isActive', 1)->get();
             return $this->succesResponse(UserResource::collection($userAll));
         }
         return $this->errorResponse(null, 'Role Unauthorize', 401);
-        
     }
 
     /**
@@ -51,28 +50,32 @@ class UserController extends BaseController
     {
         //
         try {
-            DB::beginTransaction();
             $user = User::find(Auth::id());
+            if ($user->role_id != 1) {
+                return $this->errorResponse(null, 'Roles not allowed', 403);
+            }
+            DB::beginTransaction();
+            // $user = User::find(Auth::id());
             $password = UtilsClass::generateRandomString($request->name);
             $idUser = DB::table('users')->insertGetId(
                 array(
-                    'name'=>$request->name,
-                    'email'=>$request->email,
-                    'password'=>Hash::make(($password)),
-                    'address'=>$request->address,
-                    'phone'=>$request->phone,
-                    'birthday'=>$request->birthday,
-                    'join_at'=>$request->joain_at,
-                    'company_id'=>$user->company_id,
-                    'department_id'=>$request->department_id,
-                    'role_id'=>3,
-                    'position_id'=>$request->position_id,
-                    'email_verified_at'=>null,
-                    'remember_token'=>null,
-                    'isActive'=>0,
-                    'created_by'=>$user->name,
-                    'updated_by'=>$user->name,
-                    'NIK'=>null
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => Hash::make(($password)),
+                    'address' => $request->address,
+                    'phone' => $request->phone,
+                    'birthday' => $request->birthday,
+                    'join_at' => $request->joain_at,
+                    'company_id' => $user->company_id,
+                    'department_id' => $request->department_id,
+                    'role_id' => 3,
+                    'position_id' => $request->position_id,
+                    'email_verified_at' => null,
+                    'remember_token' => null,
+                    'isActive' => 0,
+                    'created_by' => $user->name,
+                    'updated_by' => $user->name,
+                    'NIK' => null
                 )
             );
             $nik = $request->nik = null ? $idUser : $request->nik;
@@ -81,14 +84,12 @@ class UserController extends BaseController
             $userBaru->save();
 
             DB::commit();
-            return $this->succesResponse(['password'=>$password, 'data'=>$userBaru], 'Succes created new user');
+            return $this->succesResponse(['password' => $password, 'data' => $userBaru], 'Succes created new user');
         } catch (\Throwable $th) {
             DB::rollBack();
             return $this->errorResponse(null, $th->getMessage());
             //throw $th;
         }
-        
-
     }
 
     /**
@@ -127,9 +128,8 @@ class UserController extends BaseController
         $usernya = User::find(Auth::id());
         $user->updated_by = $usernya->name;
         $user->updated_at = now();
-        $user->update($request->all()); 
+        $user->update($request->all());
         return $this->succesResponse($user);
-
     }
 
     /**
@@ -140,6 +140,12 @@ class UserController extends BaseController
      */
     public function destroy(User $user)
     {
+        if ($user->role_id != 1) {
+            return $this->errorResponse(null, 'Roles not allowed', 403);
+        }
+        $user->isActive = 0;
+        $user->save();
+        return $this->succesResponse($user, 'Success non active user');
         //
     }
 }

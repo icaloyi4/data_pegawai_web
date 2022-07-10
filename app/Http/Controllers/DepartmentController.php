@@ -18,17 +18,17 @@ class DepartmentController extends BaseController
         //return $req;
         try {
             $user = User::find(Auth::id());
-            if($user->role_id != 1){
-                return $this->errorResponse(null,'Roles not allowed');
-            } 
+            if ($user->role_id != 1) {
+                return $this->errorResponse(null, 'Roles not allowed', 403);
+            }
             DB::beginTransaction();
             $user = User::find(Auth::id());
             $idDepartment = DB::table('departments')->insertGetId(
                 array(
-                    'name'=>$req->dept_name,
-                    'company_id'=>$req->company_id,
-                    'created_by'=>$user->name,
-                    'updated_by'=>$user->name,
+                    'name' => $req->dept_name,
+                    'company_id' => $req->company_id,
+                    'created_by' => $user->name,
+                    'updated_by' => $user->name,
                 )
             );
 
@@ -39,17 +39,17 @@ class DepartmentController extends BaseController
                     // $positionModel = new Position($pos->name, $pos->deparment_id, $user->name, $user->name);
 
                     DB::table('positions')->insert([
-                        'name'=>$pos['position_name'],
-                        'department_id'=>$idDepartment,
-                        'level'=>$pos['level'],
-                        'created_by'=>$user->name,
-                        'updated_by'=>$user->name,
+                        'name' => $pos['position_name'],
+                        'department_id' => $idDepartment,
+                        'level' => $pos['level'],
+                        'created_by' => $user->name,
+                        'updated_by' => $user->name,
                     ]);
                     // return $pos;
                 }
             }
             DB::commit();
-            
+
             return $this->succesResponse();
         } catch (\Exception $th) {
             //throw $th;
@@ -61,9 +61,9 @@ class DepartmentController extends BaseController
     public function getPositionById($idDepartment)
     {
         $user = User::find(Auth::id());
-            if($user->role_id != 1){
-                return $this->errorResponse(null,'Roles not allowed');
-            } 
+        if ($user->role_id != 1) {
+            return $this->errorResponse(null, 'Roles not allowed', 403);
+        }
         $position = Position::where('department_id', $idDepartment)->get();
         return $this->succesResponse(PositionResource::collection($position));
     }
@@ -77,10 +77,10 @@ class DepartmentController extends BaseController
         // return User::find(Auth::id());
         //
         $user = User::find(Auth::id());
-        if($user->role_id != 1){
-            return $this->errorResponse(null,'Roles not allowed');
-        } 
-        $department = Department::where('company_id',$user->company_id)->get();
+        if ($user->role_id != 1) {
+            return $this->errorResponse(null, 'Roles not allowed', 403);
+        }
+        $department = Department::where('company_id', $user->company_id)->get();
         return $this->succesResponse(DepartmentResource::collection($department));
     }
 
@@ -115,9 +115,9 @@ class DepartmentController extends BaseController
     {
         //
         $user = User::find(Auth::id());
-        if($user->role_id != 1){
-            return $this->errorResponse(null,'Roles not allowed');
-        } 
+        if ($user->role_id != 1) {
+            return $this->errorResponse(null, 'Roles not allowed', 403);
+        }
         return $this->succesResponse($department);
     }
 
@@ -143,13 +143,13 @@ class DepartmentController extends BaseController
     {
         //
         $usernya = User::find(Auth::id());
-        if($usernya->role_id != 1){
-            return $this->errorResponse(null,'Roles not allowed');
-        } 
+        if ($usernya->role_id != 1) {
+            return $this->errorResponse(null, 'Roles not allowed', 403);
+        }
         $department->updated_by = $usernya->name;
         $department->updated_at = now();
         $department->update($request->all());
-        
+
         return $this->succesResponse(new DepartmentResource($department));
     }
 
@@ -163,10 +163,10 @@ class DepartmentController extends BaseController
     {
         //
         $usernya = User::find(Auth::id());
-        if($usernya->role_id != 1){
-            return $this->errorResponse(null,'Roles not allowed');
-        } 
+        if ($usernya->role_id != 1) {
+            return $this->errorResponse(null, 'Roles not allowed', 403);
+        }
         $department->delete();
-        return $this->errorResponse(null,'Delete success', 204);
+        return $this->errorResponse(null, 'Delete success', 204);
     }
 }

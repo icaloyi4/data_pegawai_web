@@ -19,13 +19,12 @@ class CompanyController extends BaseController
     {
         //
         $user = User::find(Auth::id());
-        if($user->role_id == 1){
-            $company = Company::where('isActive','1')->get();
+        if ($user->role_id == 1) {
+            $company = Company::where('isActive', '1')->get();
             return $this->succesResponse(CompanyResource::collection($company));
         } else {
-            return $this->errorResponse(null,'Roles not allowed');
+            return $this->errorResponse(null, 'Roles not allowed', 403);
         }
-        
     }
 
     /**
@@ -49,12 +48,11 @@ class CompanyController extends BaseController
     {
         //
         $user = User::find(Auth::id());
-        if($user->role_id == 1){
+        if ($user->role_id == 1) {
             return $this->succesResponse($company);
         } else {
-            return $this->errorResponse(null,'Roles not allowed');
+            return $this->errorResponse(null, 'Roles not allowed', 403);
         }
-        
     }
 
     /**
@@ -66,19 +64,18 @@ class CompanyController extends BaseController
      */
     public function update(Request $request, Company $company)
     {
-        
+
         $user = User::find(Auth::id());
-        if($user->role_id == 1){
+        if ($user->role_id == 1) {
             $usernya = User::find(Auth::id());
             $company->updated_by = $usernya->name;
             $company->updated_at = now();
             $company->update($request->all());
-            
+
             return $this->succesResponse(new CompanyResource($company));
         } else {
-            return $this->errorResponse(null,'Roles not allowed');
+            return $this->errorResponse(null, 'Roles not allowed', 403);
         }
-        
     }
 
     /**
@@ -91,26 +88,24 @@ class CompanyController extends BaseController
     {
         //
         $user = User::find(Auth::id());
-        if($user->role_id == 1){
-            return $this->errorResponse(null,'Delete success', 204);
+        if ($user->role_id == 1) {
+            return $this->errorResponse(null, 'Delete success', 204);
         } else {
-            return $this->errorResponse(null,'Roles not allowed');
+            return $this->errorResponse(null, 'Roles not allowed', 403);
         }
-        
     }
-    
+
     public function deleteById(Request $req)
     {
         $user = User::find(Auth::id());
-        if($user->role_id == 1){
+        if ($user->role_id == 1) {
             $company = Company::find($req->id);
             $company->isActive = 0;
             $company->save();
 
-            return $this->errorResponse(null,'Delete success', 204);
+            return $this->errorResponse(null, 'Delete success', 204);
         } else {
-            return $this->errorResponse(null,'Roles not allowed');
+            return $this->errorResponse(null, 'Roles not allowed', 403);
         }
-        
     }
 }

@@ -22,13 +22,13 @@ class PositionController extends BaseController
     {
         //
         $user = User::find(Auth::id());
-        if($user->role_id != 1){
-            return $this->errorResponse(null,'Roles not allowed');
-        } 
+        if ($user->role_id != 1) {
+            return $this->errorResponse(null, 'Roles not allowed', 403);
+        }
         // return $user;
         // $department = Department::where('company_id',$user->company_id)->get();
         // return $department->id;
-        $position = Position::where('department_id',$user->department_id)->get();
+        $position = Position::where('department_id', $user->department_id)->get();
         return $this->succesResponse(PositionResource::collection($position));
     }
 
@@ -53,9 +53,9 @@ class PositionController extends BaseController
         //
         //
         $user = User::find(Auth::id());
-        if($user->role_id != 1){
-            return $this->errorResponse(null,'Roles not allowed');
-        } 
+        if ($user->role_id != 1) {
+            return $this->errorResponse(null, 'Roles not allowed', 403);
+        }
         //return Position::where('department_id', $request->department_id)->orderBy('level', 'desc')->first();
         try {
             DB::beginTransaction();
@@ -63,11 +63,11 @@ class PositionController extends BaseController
             //return $level;
             $idPosition = DB::table('positions')->insertGetId(
                 array(
-                    'name'=>$request->name,
-                    'department_id'=>$request->department_id,
-                    'level'=>$level->level+1,
-                    'created_by'=>$user->name,
-                    'updated_by'=>$user->name,
+                    'name' => $request->name,
+                    'department_id' => $request->department_id,
+                    'level' => $level->level + 1,
+                    'created_by' => $user->name,
+                    'updated_by' => $user->name,
                 )
             );
             $post = Position::find($idPosition);
@@ -90,9 +90,9 @@ class PositionController extends BaseController
     {
         //
         $user = User::find(Auth::id());
-        if($user->role_id != 1){
-            return $this->errorResponse(null,'Roles not allowed');
-        } 
+        if ($user->role_id != 1) {
+            return $this->errorResponse(null, 'Roles not allowed', 403);
+        }
         return $this->succesResponse($position);
     }
 
@@ -120,20 +120,19 @@ class PositionController extends BaseController
         try {
             //code...
             $user = User::find(Auth::id());
-            if($user->role_id != 1){
-                return $this->errorResponse(null,'Roles not allowed');
-            } 
-            $user= User::find(Auth::id());
+            if ($user->role_id != 1) {
+                return $this->errorResponse(null, 'Roles not allowed', 403);
+            }
+            $user = User::find(Auth::id());
             $position->updated_by = $user->name;
             $position->updated_at = now();
             $position->update($request->all());
-            
+
             return $this->succesResponse(new PositionResource($position));
         } catch (\Throwable $th) {
             //throw $th;
             return $this->errorResponse($th->getMessage());
         }
-        
     }
 
     /**
@@ -148,15 +147,14 @@ class PositionController extends BaseController
         try {
             //code...
             $user = User::find(Auth::id());
-            if($user->role_id != 1){
-                return $this->errorResponse(null,'Roles not allowed');
-            } 
+            if ($user->role_id != 1) {
+                return $this->errorResponse(null, 'Roles not allowed', 403);
+            }
             $position->delete();
-            return $this->errorResponse($position, $position->name.'Deleted ');
+            return $this->errorResponse($position, $position->name . 'Deleted ');
         } catch (\Throwable $th) {
             //throw $th;
             return $this->errorResponse($th->getMessage());
         }
-        
     }
 }
