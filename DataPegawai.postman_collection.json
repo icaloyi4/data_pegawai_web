@@ -1,0 +1,712 @@
+{
+	"info": {
+		"_postman_id": "68daf432-3f39-4fe5-99a3-a60ab22a631c",
+		"name": "DataPegawai",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2341673"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_name\":\"Rizky Haris Risaldi\",\n    \"user_email\":\"ical.oyi@gmail.com\",\n    \"password\":\"1234567890\",\n    \"password_confirmation\":\"1234567890\",\n    \"user_phone\":\"081333169082\",\n    \"user_birthday\":\"1996-05-23\",\n    \"user_join_at\":\"2021-03-01\",\n    \"company_name\":\"Lunartechno.id\",\n    \"company_email\":\"lunartechno.id@gmail.com\",\n    \"company_phone\":\"081333169082\",\n    \"company_address\":null,\n    \"company_location\":null,\n    \"company_city\":null,\n    \"company_country\":null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url_data_pegawai}}api/register",
+							"host": [
+								"{{Url_data_pegawai}}api"
+							],
+							"path": [
+								"register"
+							],
+							"query": [
+								{
+									"key": "_method",
+									"value": "POST",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_data_pegawai}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"token\":\"15\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_data_pegawai}}logout",
+							"host": [
+								"{{url_data_pegawai}}logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"iclrisaldi@gmail.com\",\n    \"password\":\"123456789\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_data_pegawai}}login",
+							"host": [
+								"{{url_data_pegawai}}login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"iclrisaldi@gmail.com\",\n    \"password\":\"1234567890\",\n    \"new_password\":\"123456789\",\n    \"new_password_confirmation\":\"123456789\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_data_pegawai}}resetPassword",
+							"host": [
+								"{{url_data_pegawai}}resetPassword"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Department",
+			"item": [
+				{
+					"name": "Get Department",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token_data_pegawai}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Url_data_pegawai}}api/departments",
+							"host": [
+								"{{Url_data_pegawai}}api"
+							],
+							"path": [
+								"departments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RegisterDepartment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token_data_pegawai}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dept_name\":\"IT\",\n    \"company_id\":19,\n    \"position\" : [\n        {\n            \"position_name\":\"Head Department\",\n            \"level\":1\n        },\n        {\n           \"position_name\":\"Staff\",\n            \"level\":2 \n        }\n    ]\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url_data_pegawai}}api/departments/registerDepartment",
+							"host": [
+								"{{Url_data_pegawai}}api"
+							],
+							"path": [
+								"departments",
+								"registerDepartment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Department by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token_data_pegawai}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Url_data_pegawai}}api/departments/5",
+							"host": [
+								"{{Url_data_pegawai}}api"
+							],
+							"path": [
+								"departments",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save Department by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token_data_pegawai}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"IT Department\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url_data_pegawai}}api/departments/5",
+							"host": [
+								"{{Url_data_pegawai}}api"
+							],
+							"path": [
+								"departments",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Companies",
+			"item": [
+				{
+					"name": "Get Company By ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token_data_pegawai}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Url_data_pegawai}}api/companies/19",
+							"host": [
+								"{{Url_data_pegawai}}api"
+							],
+							"path": [
+								"companies",
+								"19"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Company",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_data_pegawai}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_data_pegawai}}companies",
+							"host": [
+								"{{url_data_pegawai}}companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Company",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Token_data_pegawai}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Url_data_pegawai}}api/companies/19",
+							"host": [
+								"{{Url_data_pegawai}}api"
+							],
+							"path": [
+								"companies",
+								"19"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save Company By ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_data_pegawai}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"address\":\"Jln Candi Telagawangi No.71\",\n    \"location\":null,\n    \"city\":null,\n    \"country\":\"Indonesia\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_data_pegawai}}companies/19",
+							"host": [
+								"{{url_data_pegawai}}companies"
+							],
+							"path": [
+								"19"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Position",
+			"item": [
+				{
+					"name": "PositionByUserDepartment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_data_pegawai}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_data_pegawai}}positions",
+							"host": [
+								"{{url_data_pegawai}}positions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Position By Department",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_data_pegawai}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_data_pegawai}}departments/5/getPositionById",
+							"host": [
+								"{{url_data_pegawai}}departments"
+							],
+							"path": [
+								"5",
+								"getPositionById"
+							],
+							"query": [
+								{
+									"key": "idDerpartment",
+									"value": "19",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Position By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_data_pegawai}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_data_pegawai}}positions/1",
+							"host": [
+								"{{url_data_pegawai}}positions"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get All User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_data_pegawai}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_data_pegawai}}users",
+							"host": [
+								"{{url_data_pegawai}}users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User By ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_data_pegawai}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_data_pegawai}}users/14",
+							"host": [
+								"{{url_data_pegawai}}users"
+							],
+							"path": [
+								"14"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Insert new User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_data_pegawai}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"name\":\"Ical Risaldi\",\n        \"email\":\"iclrisaldi@gmail.com\",\n        \"address\":null,\n        \"phone\":\"08123456780\",\n        \"birthday\":null,\n        \"join_at\":null,\n        \"company_id\":null,\n        \"department_id\":null,\n        \"position_id\":null,\n        \"nik\":null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_data_pegawai}}users",
+							"host": [
+								"{{url_data_pegawai}}users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_data_pegawai}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"address\":\"Malang Bos ku\",\n        \"phone\":\"08123456780\",\n        \"birthday\":null,\n        \"join_at\":null,\n        \"department_id\":null,\n        \"position_id\":null,\n        \"nik\":null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_data_pegawai}}users/15",
+							"host": [
+								"{{url_data_pegawai}}users"
+							],
+							"path": [
+								"15"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
