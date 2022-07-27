@@ -10,34 +10,40 @@ use App\Http\Requests\ResetRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\BaseController;
+use App\Models\Company;
+use App\Models\Department;
+use App\Models\Position;
 
 class AuthController extends BaseController
 {
-// public function __construct()
-// {
-//     return auth()->shouldUse('api');   
-// }
+    // public function __construct()
+    // {
+    //     return auth()->shouldUse('api');   
+    // }
     public function login(LoginRequest $request)
     {
         try {
             $val = $request->only(['email', 'password']);
-            if(Auth::attempt($val)){ 
-                DB::table('oauth_access_tokens')->where('user_id',Auth::id())->update(
+            if (Auth::attempt($val)) {
+                DB::table('oauth_access_tokens')->where('user_id', Auth::id())->update(
                     array(
-                    'revoked'=>1,
-                ));
-                $user = User::find(Auth::id()); 
+                        'revoked' => 1,
+                    )
+                );
+                $user = User::find(Auth::id());
                 $token = $user->createToken('dataPegawai')->accessToken;
                 $user->remember_token = $token;
                 $user->save();
-    
-                return $this->succesResponse(['token'=>$token,'user'=>$user], 'Login success');
-            } 
-            else{ 
+
+                $company = Company::find($user->company_id);
+                $department = Department::find($user->department_id);
+                $position = Position::find($user->position_id);
+
+                return $this->succesResponse(['token' => $token, 'user' => $user, 'company' => $company, 'department' => $department, 'position' => $position], 'Login success');
+            } else {
                 return $this->errorResponse(null, 'Email or Password is wrong.', 401);
-            } 
-        }
-        catch (\Exception $e) {
+            }
+        } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage());
         }
     }
@@ -46,23 +52,22 @@ class AuthController extends BaseController
     {
         try {
             $val = $request->only(['email', 'password']);
-            if(Auth::attempt($val)){ 
-                DB::table('oauth_access_tokens')->where('user_id',Auth::id())->update(
+            if (Auth::attempt($val)) {
+                DB::table('oauth_access_tokens')->where('user_id', Auth::id())->update(
                     array(
-                    'revoked'=>1,
-                ));
+                        'revoked' => 1,
+                    )
+                );
                 $user = User::find(Auth::id());
                 $user->password = Hash::make($request->new_password);
 
                 $user->save();
-    
+
                 return $this->succesResponse($user, 'Reset password success');
-            } 
-            else{ 
+            } else {
                 return $this->errorResponse(null, 'Email or Password is wrong.', 401);
-            } 
-        }
-        catch (\Exception $e) {
+            }
+        } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage());
         }
     }
@@ -71,10 +76,11 @@ class AuthController extends BaseController
     {
         try {
             if (Auth::check()) {
-                DB::table('oauth_access_tokens')->where('user_id',Auth::id())->update(
+                DB::table('oauth_access_tokens')->where('user_id', Auth::id())->update(
                     array(
-                    'revoked'=>1,
-                ));
+                        'revoked' => 1,
+                    )
+                );
                 $user = User::find(Auth::id());
                 $user->remember_token = null;
                 $user->save();
@@ -84,7 +90,5 @@ class AuthController extends BaseController
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage());
         }
-        
     }
-        
 }
