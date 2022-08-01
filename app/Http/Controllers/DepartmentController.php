@@ -67,6 +67,24 @@ class DepartmentController extends BaseController
         $position = Position::where('department_id', $idDepartment)->get();
         return $this->succesResponse(PositionResource::collection($position));
     }
+
+    public function getDepartmentWithPosition()
+    {
+        # code...
+        $user = User::find(Auth::id());
+        // return $user;
+        if ($user->role_id != 1) {
+            return $this->errorResponse(null, 'Roles not allowed', 403);
+        }
+        $department = Department::where('company_id', $user->company_id)->orderBy('name')->get();
+        $listDepartment = [];
+        foreach ($department as $value) {
+            $listPosition = Position::where('department_id', $value->id)->orderBy('level')->get();
+            $listDepartmentValue = ['id' => $value->id, 'name' => $value->name, 'position' => $listPosition];
+            $listDepartment[] = $listDepartmentValue;
+        }
+        return $this->succesResponse(DepartmentResource::collection($listDepartment));
+    }
     /**
      * Display a listing of the resource.
      *

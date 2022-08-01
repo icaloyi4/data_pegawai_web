@@ -24,8 +24,30 @@ class UserController extends BaseController
         //
         $user = User::find(Auth::id());
         if ($user->role_id = 1) {
-            $userAll = User::where('company_id', $user->company_id)->where('isActive', 1)->get();
-            return $this->succesResponse(UserResource::collection($userAll));
+            $userAll = DB::table('users')
+                ->leftJoin('departments', 'users.department_id', '=', 'departments.id')
+                ->leftJoin('positions', 'users.position_id', '=', 'positions.id')
+                ->select(
+                    'users.id',
+                    'users.name',
+                    'users.email',
+                    'users.address',
+                    'users.phone',
+                    'users.birthday',
+                    'users.join_at',
+                    'users.company_id',
+                    'users.department_id',
+                    'users.position_id',
+                    'users.role_id',
+                    'users.email_verified_at',
+                    'users.NIK',
+                    'departments.name as department',
+                    'positions.name as position',
+                    'positions.level'
+                )
+                ->orderBy('users.name')
+                ->get();
+            return $this->succesResponse($userAll);
         }
         return $this->errorResponse(null, 'Role Unauthorize', 401);
     }
