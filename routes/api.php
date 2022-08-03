@@ -32,6 +32,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('departments/registerDepartment', [DepartmentController::class, "departmentPosition"]);
     Route::get('departments/{idDepartment}/getPositionById', [DepartmentController::class, "getPositionById"]);
     Route::get('departments/getDepartmentWithPosition', [DepartmentController::class, "getDepartmentWithPosition"]);
+    Route::post('users/deleteUser/{idUser}', [UserController::class, "deleteUser"]);
     Route::apiResource('departments', DepartmentController::class);
     Route::apiResource('companies', CompanyController::class);
     Route::apiResource('positions', PositionController::class);

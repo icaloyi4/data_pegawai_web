@@ -45,11 +45,28 @@ class UserController extends BaseController
                     'positions.name as position',
                     'positions.level'
                 )
-                ->orderBy('users.name')
+                ->where('users.company_id', $user->company_id)
+                ->where('isActive', 1)
+                ->orderBy('positions.level')
                 ->get();
             return $this->succesResponse($userAll);
         }
         return $this->errorResponse(null, 'Role Unauthorize', 401);
+    }
+
+    public function deleteUser($idUser)
+    {
+        $user = User::find(Auth::id());
+        $userDel = User::find($idUser);
+        if ($user->role_id != 1) {
+            return $this->errorResponse(null, 'Roles not allowed', 403);
+        }
+        if ($userDel->role_id == 1) {
+            return $this->errorResponse(null, 'Roles not allowed', 403);
+        }
+        $userDel->isActive = 0;
+        $userDel->save();
+        return $this->succesResponse(null, 'Success non active user');
     }
 
     /**
@@ -78,7 +95,14 @@ class UserController extends BaseController
             }
             DB::beginTransaction();
             // $user = User::find(Auth::id());
-            $password = UtilsClass::generateRandomString($request->name);
+            $password = "";
+            if ($request->password == null) {
+                $password = UtilsClass::generateRandomString($request->name);
+            } else {
+                $password = $request->password;
+            }
+
+
             $idUser = DB::table('users')->insertGetId(
                 array(
                     'name' => $request->name,
@@ -87,20 +111,20 @@ class UserController extends BaseController
                     'address' => $request->address,
                     'phone' => $request->phone,
                     'birthday' => $request->birthday,
-                    'join_at' => $request->joain_at,
+                    'join_at' => $request->join_at,
                     'company_id' => $user->company_id,
                     'department_id' => $request->department_id,
                     'role_id' => 3,
                     'position_id' => $request->position_id,
                     'email_verified_at' => null,
                     'remember_token' => null,
-                    'isActive' => 0,
+                    'isActive' => 1,
                     'created_by' => $user->name,
                     'updated_by' => $user->name,
                     'NIK' => null
                 )
             );
-            $nik = $request->nik = null ? $idUser : $request->nik;
+            $nik = $request->nik == null ? $idUser : $request->nik;
             $userBaru = User::find($idUser);
             $userBaru->NIK = $nik;
             $userBaru->save();
@@ -148,10 +172,13 @@ class UserController extends BaseController
     {
         //
         $usernya = User::find(Auth::id());
+        if ($usernya->role_id != 1) {
+            return $this->errorResponse(null, 'Roles not allowed', 403);
+        }
         $user->updated_by = $usernya->name;
         $user->updated_at = now();
         $user->update($request->all());
-        return $this->succesResponse($user);
+        return $this->succesResponse(['password' => null, 'data' => $user], 'Succes update user');
     }
 
     /**
@@ -162,12 +189,15 @@ class UserController extends BaseController
      */
     public function destroy(User $user)
     {
-        if ($user->role_id != 1) {
+        $userAdmin = User::find(Auth::id());
+        if ($userAdmin->role_id != 1) {
             return $this->errorResponse(null, 'Roles not allowed', 403);
         }
-        $user->isActive = 0;
-        $user->save();
-        return $this->succesResponse($user, 'Success non active user');
+        if ($user->role_id == 1) {
+            return $this->errorResponse(null, 'Roles not allowed', 403);
+        }
+        $user->delete();
+        return $this->succesResponse(null, 'Success non active user');
         //
     }
 }
