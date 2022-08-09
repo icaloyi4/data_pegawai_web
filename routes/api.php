@@ -30,6 +30,7 @@ Route::post('resetPassword', [AuthController::class, "resetPassword"])->name('re
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', [AuthController::class, "logout"]);
     Route::post('departments/registerDepartment', [DepartmentController::class, "departmentPosition"]);
+    Route::post('departments/updateDepartment', [DepartmentController::class, "updateDepartmentPosition"]);
     Route::get('departments/{idDepartment}/getPositionById', [DepartmentController::class, "getPositionById"]);
     Route::get('departments/getDepartmentWithPosition', [DepartmentController::class, "getDepartmentWithPosition"]);
     Route::post('users/deleteUser/{idUser}', [UserController::class, "deleteUser"]);
