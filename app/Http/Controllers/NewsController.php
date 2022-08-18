@@ -151,7 +151,7 @@ class NewsController extends BaseController
                 return $this->errorResponse(null, 'Roles not allowed', 403);
             }
             $news->delete();
-            return $this->errorResponse($news, $news->title . 'Deleted ');
+            return $this->succesResponse(null, $news->title . 'Deleted ');
         } catch (\Throwable $th) {
             //throw $th;
             return $this->errorResponse($th->getMessage());
