@@ -30,12 +30,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{Url_data_pegawai}}api/register",
+							"raw": "{{url_data_pegawai}}register",
 							"host": [
-								"{{Url_data_pegawai}}api"
-							],
-							"path": [
-								"register"
+								"{{url_data_pegawai}}register"
 							],
 							"query": [
 								{
@@ -100,7 +97,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\":\"iclrisaldi@gmail.com\",\n    \"password\":\"123456789\"\n}",
+							"raw": "{\n    \"email\":\"r.harisrisaldi@lunartechno.id\",\n    \"password\":\"1234567890\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -129,7 +126,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\":\"iclrisaldi@gmail.com\",\n    \"password\":\"1234567890\",\n    \"new_password\":\"123456789\",\n    \"new_password_confirmation\":\"123456789\"\n}",
+							"raw": "{\n    \"email\":\"syaifulindra@gmail.com\",\n    \"password\":\"sgKfd GB\",\n    \"new_password\":\"1234567890\",\n    \"new_password_confirmation\":\"1234567890\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -206,7 +203,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"dept_name\":\"IT\",\n    \"company_id\":19,\n    \"position\" : [\n        {\n            \"position_name\":\"Head Department\",\n            \"level\":1\n        },\n        {\n           \"position_name\":\"Staff\",\n            \"level\":2 \n        }\n    ]\n\n}",
+							"raw": "{\n    \"name\":\"Sales\",\n    \"id\":null,\n    \"position\" : [\n        {\n            \"position_name\":\"Head Department\",\n            \"department_id\":null,\n            \"id\":null,\n            \"level\":1\n        },\n        {\n           \"position_name\":\"Head Department\",\n            \"department_id\":null,\n            \"id\":null,\n            \"level\":2\n        }\n    ]\n\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -214,12 +211,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{Url_data_pegawai}}api/departments/registerDepartment",
+							"raw": "{{url_data_pegawai}}departments/registerDepartment",
 							"host": [
-								"{{Url_data_pegawai}}api"
+								"{{url_data_pegawai}}departments"
 							],
 							"path": [
-								"departments",
 								"registerDepartment"
 							]
 						}
@@ -261,7 +257,7 @@
 					"response": []
 				},
 				{
-					"name": "Save Department by ID",
+					"name": "delete Department by ID",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -298,6 +294,81 @@
 							"path": [
 								"departments",
 								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Department and Position",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_data_pegawai}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_data_pegawai}}departments/getDepartmentWithPosition",
+							"host": [
+								"{{url_data_pegawai}}departments"
+							],
+							"path": [
+								"getDepartmentWithPosition"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateDepartment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_data_pegawai}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"Sales\",\n    \"id\":19,\n    \"position\" : [\n        {\n            \"position_name\":\"Head Department\",\n            \"department_id\":19,\n            \"id\":1,\n            \"level\":1\n        },\n        {\n           \"position_name\":\"Head Department\",\n            \"department_id\":19,\n            \"id\":2,\n            \"level\":2\n        }\n    ]\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_data_pegawai}}departments/updateDepartment",
+							"host": [
+								"{{url_data_pegawai}}departments"
+							],
+							"path": [
+								"updateDepartment"
 							]
 						}
 					},
@@ -648,7 +719,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n        \"name\":\"Ical Risaldi\",\n        \"email\":\"iclrisaldi@gmail.com\",\n        \"address\":null,\n        \"phone\":\"08123456780\",\n        \"birthday\":null,\n        \"join_at\":null,\n        \"company_id\":null,\n        \"department_id\":null,\n        \"position_id\":null,\n        \"nik\":null\n}",
+							"raw": "{\n        \"name\":\"Syaiful Cahya Sulaiman\",\n        \"email\":\"syaifulcahyasulaiman@gmail.com\",\n        \"password\":\"1234567890\",\n        \"address\":null,\n        \"phone\":\"08123456780\",\n        \"birthday\":null,\n        \"join_at\":null,\n        \"company_id\":null,\n        \"department_id\":5,\n        \"position_id\":1,\n        \"nik\":null\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -687,7 +758,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n        \"address\":\"Malang Bos ku\",\n        \"phone\":\"08123456780\",\n        \"birthday\":null,\n        \"join_at\":null,\n        \"department_id\":null,\n        \"position_id\":null,\n        \"nik\":null\n}",
+							"raw": "{\n    \"id\": 31, \"name\": \"Rohman Sidiq\", \"email\": \"r.sidiq@gmail.com\", \"address\": \"Jln. Sigura gura barat\", \"phone\": 08123456790, birthday: null, join_at: 2022-08-03, company_id: 19, department_id: 9, position_id: 11, role_id: 3, email_verified_at: null, NIK: 31, department: HRD, position: Staff, level: 2, password: null\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -701,6 +772,134 @@
 							],
 							"path": [
 								"15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete user by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_data_pegawai}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_data_pegawai}}users/deleteUser/15",
+							"host": [
+								"{{url_data_pegawai}}users"
+							],
+							"path": [
+								"deleteUser",
+								"15"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "News",
+			"item": [
+				{
+					"name": "Get News",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_data_pegawai}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_data_pegawai}}news?limit=2",
+							"host": [
+								"{{url_data_pegawai}}news"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "2"
+								},
+								{
+									"key": "lang",
+									"value": "eng",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create News",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_data_pegawai}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\":\"Trump Diam Saja Saat 6 Jam Diperiksa Jaksa Agung New York\",\n    \"subtitle\":\"Mantan Presiden Amerika Serikat (AS) Donald Trump pada Rabu (10/8/2022) menolak menjawab pertanyaan di bawah sumpah tentang dugaan penipuan di bisnis keluarganya. Trump berdalih, dia tidak punya pilihan selain menerapkan Amendemen Kelima yang mengizinkan individu tetap diam selama interogasi. Trump diperiksa selama enam jam di kantor Jaksa Agung New York di Manhattan.\",\n    \"img_url\":\"https://asset.kompas.com/crops/449sJI_1iwiU-gqbjUI-aWpCxrg=/283x0:726x295/750x500/data/photo/2022/08/11/62f44a9fbe2f9.jpg\",\n    \"url\":\"kompas.com/global/read/2022/08/11/131300470/trump-diam-saja-saat-6-jam-diperiksa-jaksa-agung-new-york\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_data_pegawai}}news",
+							"host": [
+								"{{url_data_pegawai}}news"
 							]
 						}
 					},

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PositionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -38,4 +39,5 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('companies', CompanyController::class);
     Route::apiResource('positions', PositionController::class);
     Route::apiResource('users', UserController::class);
+    Route::apiResource('news', NewsController::class);
 });

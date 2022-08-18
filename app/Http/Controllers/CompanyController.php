@@ -72,7 +72,7 @@ class CompanyController extends BaseController
             $company->updated_at = now();
             $company->update($request->all());
 
-            return $this->succesResponse(new CompanyResource($company));
+            return $this->succesResponse(null, 'Company Updated');
         } else {
             return $this->errorResponse(null, 'Roles not allowed', 403);
         }
