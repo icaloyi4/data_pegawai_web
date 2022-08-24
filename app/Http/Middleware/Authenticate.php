@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\ResponseDefaultModel;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
 class Authenticate extends Middleware
@@ -14,8 +15,19 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-        if (! $request->expectsJson()) {
+        if (!$request->expectsJson()) {
             return route('login');
         }
+    }
+
+    protected function unauthenticated($request, array $exception)
+    {
+        abort(401, 'Unauthenticated');
+        // if ($request->expectsJson()) {
+        // return 'JANCOK';
+        //response()->json(['error' => 'Unauthenticated.'], 401);
+        // }
+
+        // return redirect()->guest(route('login'));
     }
 }

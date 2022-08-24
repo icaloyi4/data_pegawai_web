@@ -19,11 +19,11 @@ class NewsController extends BaseController
     public function index(Request $request)
     {
         //
-        
+
         $user = User::find(Auth::id());
         $resource = News::where('company_id', $user->company_id)->take($request->limit)->orderBy('created_at', 'desc')->get();
-         
-        
+
+
         return $this->succesResponse(NewsResource::collection($resource));
     }
 

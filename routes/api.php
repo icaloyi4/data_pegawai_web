@@ -22,13 +22,18 @@ use App\Http\Controllers\UserController;
 */
 
 // Route::middleware('api')->get('register', [RegisterCompanyController::class, "register"])->name('register');
+// Route::middleware(['cors'])->group(function () {
 Route::post('register', [RegisterCompanyController::class, "register"])->name('register');
 Route::post('login', [AuthController::class, "login"])->name('login');
 Route::post('resetPassword', [AuthController::class, "resetPassword"])->name('resetPassword');
+
+
+// });
+
 // Route::post('logout', [AuthController::class, "logout"]);
 // Route::post('logout',[AuthController::class,"logout"]);
 
-Route::middleware('auth:api')->group(function () {
+Route::middleware(['auth:api'])->group(function () {
     Route::post('logout', [AuthController::class, "logout"]);
     Route::post('departments/registerDepartment', [DepartmentController::class, "departmentPosition"]);
     Route::post('departments/updateDepartment', [DepartmentController::class, "updateDepartmentPosition"]);
