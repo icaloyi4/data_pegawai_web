@@ -123,12 +123,12 @@ class NewsController extends BaseController
             if ($user->role_id != 1) {
                 return $this->errorResponse(null, 'Roles not allowed', 403);
             }
-            $user = User::find(Auth::id());
+            $news = News::find($request->id);
             $news->updated_by = $user->name;
             $news->updated_at = now();
             $news->update($request->all());
 
-            return $this->succesResponse(new NewsResource($news));
+            return $this->succesResponse(null);
         } catch (\Throwable $th) {
             //throw $th;
             return $this->errorResponse($th->getMessage());

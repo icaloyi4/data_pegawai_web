@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnnouncementsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DepartmentController;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterCompanyController;
 use App\Http\Controllers\UserController;
+use App\Models\Announcements;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,4 +47,5 @@ Route::middleware(['auth:api'])->group(function () {
     Route::apiResource('positions', PositionController::class);
     Route::apiResource('users', UserController::class);
     Route::apiResource('news', NewsController::class);
+    Route::apiResource('announcements', AnnouncementsController::class);
 });

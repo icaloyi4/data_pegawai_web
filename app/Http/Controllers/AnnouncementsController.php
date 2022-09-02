@@ -2,20 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AnnouncementResource;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Announcements;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
-class AnnouncementsController extends Controller
+class AnnouncementsController extends BaseController
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        try {
+            $user = User::find(Auth::id());
+            $announcements = Announcements::where('expired_at', '>=', date('Y-m-d'))->where('company_id', $user->company_id)->where(function ($query) use ($request) {
+                $query->where('department_id', $request->department_id)->orWhereNull('department_id');
+            })->get();
+            return $this->succesResponse(AnnouncementResource::collection($announcements));
+        } catch (\Throwable $th) {
+            //throw $th;
+            return $this->errorResponse($th->getMessage(), 'Error insert new announcements', 500);
+        }
     }
 
     /**
@@ -48,6 +61,7 @@ class AnnouncementsController extends Controller
             DB::table('announcements')->insertGetId(
                 array(
                     'company_id' => $user->company_id,
+                    'department_id' => $request->department_id,
                     'title' => $request->title,
                     'subtitle' => $request->subtitle,
                     'url' => $request->url,
@@ -75,6 +89,7 @@ class AnnouncementsController extends Controller
     public function show(Announcements $announcements)
     {
         //
+        return $this->succesResponse($announcements);
     }
 
     /**
@@ -98,6 +113,24 @@ class AnnouncementsController extends Controller
     public function update(Request $request, Announcements $announcements)
     {
         //
+        try {
+            //code...
+            $user = User::find(Auth::id());
+            
+            if ($user->role_id != 1) {
+                return $this->errorResponse(null, 'Roles not allowed', 403);
+            }
+            $announcements = Announcements::find($request->id);
+            $announcements->updated_by = $user->name;
+            $announcements->updated_at = now();
+            $announcements->update($request->all());
+            // return $announcements;
+
+            return $this->succesResponse(null);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return $this->errorResponse($th->getMessage());
+        }
     }
 
     /**
@@ -109,5 +142,17 @@ class AnnouncementsController extends Controller
     public function destroy(Announcements $announcements)
     {
         //
+        try {
+            //code...
+            $user = User::find(Auth::id());
+            if ($user->role_id != 1) {
+                return $this->errorResponse(null, 'Roles not allowed', 403);
+            }
+            $announcements->delete();
+            return $this->succesResponse(null, $announcements->title . 'Deleted ');
+        } catch (\Throwable $th) {
+            //throw $th;
+            return $this->errorResponse($th->getMessage());
+        }
     }
 }

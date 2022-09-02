@@ -97,7 +97,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\":\"r.harisrisaldi@lunartechno.id\",\n    \"password\":\"1234567890\"\n}",
+							"raw": "{\n    \"email\":\"ical.oyi@theoyi.com\",\n    \"password\":\"1234567890\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -126,7 +126,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\":\"syaifulindra@gmail.com\",\n    \"password\":\"sgKfd GB\",\n    \"new_password\":\"1234567890\",\n    \"new_password_confirmation\":\"1234567890\"\n}",
+							"raw": "{\n    \"email\":\"r.harisrisaldi@theoyi.com\",\n    \"password\":\"L^v_IgLxA\",\n    \"new_password\":\"1234567890\",\n    \"new_password_confirmation\":\"1234567890\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -155,7 +155,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{Token_data_pegawai}}",
+									"value": "{{token_data_pegawai}}",
 									"type": "string"
 								}
 							]
@@ -169,12 +169,9 @@
 							}
 						],
 						"url": {
-							"raw": "{{Url_data_pegawai}}api/departments",
+							"raw": "{{url_data_pegawai}}departments",
 							"host": [
-								"{{Url_data_pegawai}}api"
-							],
-							"path": [
-								"departments"
+								"{{url_data_pegawai}}departments"
 							]
 						}
 					},
@@ -879,7 +876,7 @@
 								}
 							]
 						},
-						"method": "POST",
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Accept",
@@ -900,6 +897,128 @@
 							"raw": "{{url_data_pegawai}}news",
 							"host": [
 								"{{url_data_pegawai}}news"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Announcement",
+			"item": [
+				{
+					"name": "Get announcements",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_data_pegawai}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_data_pegawai}}announcements?department_id=null",
+							"host": [
+								"{{url_data_pegawai}}announcements"
+							],
+							"query": [
+								{
+									"key": "department_id",
+									"value": "null"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save announcements",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_data_pegawai}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"department_id\": null,\n    \"title\": \"Peraturan WFH\",\n    \"subtitle\": \"Test Loor 2\",\n    \"url\": null,\n    \"img_url\": \"https://www.djkn.kemenkeu.go.id/kpknl-palu/baca-artikel/14156/Bekerja-dari-Rumah-Work-From-HomeWFH-Menghadapi-COVID-19-pada-PPKM-Level-4.html\",\n    \"expired_at\": \"2022-08-30\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_data_pegawai}}announcements",
+							"host": [
+								"{{url_data_pegawai}}announcements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update announcements",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_data_pegawai}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\":2,\n    \"department_id\": null,\n    \"title\": \"Peraturan WFH\",\n    \"subtitle\": \"Test Loor 2\",\n    \"url\": \"https://www.djkn.kemenkeu.go.id/kpknl-palu/baca-artikel/14156/Bekerja-dari-Rumah-Work-From-HomeWFH-Menghadapi-COVID-19-pada-PPKM-Level-4.html\",\n    \"img_url\": null,\n    \"expired_at\": \"2022-08-30\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_data_pegawai}}announcements/2",
+							"host": [
+								"{{url_data_pegawai}}announcements"
+							],
+							"path": [
+								"2"
 							]
 						}
 					},
