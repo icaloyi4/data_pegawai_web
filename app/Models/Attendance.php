@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Announcements extends Model
+class Attendance extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'company_id',
-        'department_id',
-        'title',
-        'subtitle',
-        'url',
-        'img_url',
+        'user_id',
+        'check_in',
+        'check_out',
+        'location',
+        'notes',
+        'image_path',
         'expired_at',
         'created_by',
         'updated_by',

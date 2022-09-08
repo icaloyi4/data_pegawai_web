@@ -80,6 +80,7 @@ class NewsController extends BaseController
             return $this->succesResponse(null);
         } catch (\Throwable $th) {
             //throw $th;
+            DB::rollBack();
             return $this->errorResponse($th->getMessage(), 'Error insert new news', 500);
         }
     }

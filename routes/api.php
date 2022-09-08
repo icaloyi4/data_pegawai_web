@@ -1,16 +1,15 @@
 <?php
 
-use App\Http\Controllers\AnnouncementsController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\NewsController;
-use App\Http\Controllers\PositionController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RegisterCompanyController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\UserController;
-use App\Models\Announcements;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\PositionController;
+use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\RegisterCompanyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,10 +41,12 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('departments/{idDepartment}/getPositionById', [DepartmentController::class, "getPositionById"]);
     Route::get('departments/getDepartmentWithPosition', [DepartmentController::class, "getDepartmentWithPosition"]);
     Route::post('users/deleteUser/{idUser}', [UserController::class, "deleteUser"]);
+    Route::post('attendances/{idAttendance}', [AttendanceController::class, "checkout"]);
     Route::apiResource('departments', DepartmentController::class);
     Route::apiResource('companies', CompanyController::class);
     Route::apiResource('positions', PositionController::class);
     Route::apiResource('users', UserController::class);
     Route::apiResource('news', NewsController::class);
-    Route::apiResource('announcements', AnnouncementsController::class);
+    Route::apiResource('announcements', AnnouncementController::class);
+    Route::apiResource('attendances', AttendanceController::class);
 });

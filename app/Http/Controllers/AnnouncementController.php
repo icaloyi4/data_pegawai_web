@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\AnnouncementResource;
 use App\Models\User;
+use App\Models\Announcement;
 use Illuminate\Http\Request;
-use App\Models\Announcements;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\BaseController;
+use App\Http\Resources\AnnouncementResource;
 
-class AnnouncementsController extends BaseController
+class AnnouncementController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +22,7 @@ class AnnouncementsController extends BaseController
         //
         try {
             $user = User::find(Auth::id());
-            $announcements = Announcements::where('expired_at', '>=', date('Y-m-d'))->where('company_id', $user->company_id)->where(function ($query) use ($request) {
+            $announcements = Announcement::where('expired_at', '>=', date('Y-m-d'))->where('company_id', $user->company_id)->where(function ($query) use ($request) {
                 $query->where('department_id', $request->department_id)->orWhereNull('department_id');
             })->get();
             return $this->succesResponse(AnnouncementResource::collection($announcements));
@@ -30,7 +31,6 @@ class AnnouncementsController extends BaseController
             return $this->errorResponse($th->getMessage(), 'Error insert new announcements', 500);
         }
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -83,22 +83,22 @@ class AnnouncementsController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Announcements  $announcements
+     * @param  \App\Models\Announcement  $announcement
      * @return \Illuminate\Http\Response
      */
-    public function show(Announcements $announcements)
+    public function show(Announcement $announcement)
     {
         //
-        return $this->succesResponse($announcements);
+        return $this->succesResponse($announcement);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Announcements  $announcements
+     * @param  \App\Models\Announcement  $announcement
      * @return \Illuminate\Http\Response
      */
-    public function edit(Announcements $announcements)
+    public function edit(Announcement $announcement)
     {
         //
     }
@@ -107,10 +107,10 @@ class AnnouncementsController extends BaseController
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Announcements  $announcements
+     * @param  \App\Models\Announcement  $announcement
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Announcements $announcements)
+    public function update(Request $request, Announcement $announcement)
     {
         //
         try {
@@ -120,7 +120,7 @@ class AnnouncementsController extends BaseController
             if ($user->role_id != 1) {
                 return $this->errorResponse(null, 'Roles not allowed', 403);
             }
-            $announcements = Announcements::find($request->id);
+            $announcements = Announcement::find($request->id);
             $announcements->updated_by = $user->name;
             $announcements->updated_at = now();
             $announcements->update($request->all());
@@ -136,23 +136,11 @@ class AnnouncementsController extends BaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Announcements  $announcements
+     * @param  \App\Models\Announcement  $announcement
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Announcements $announcements)
+    public function destroy(Announcement $announcement)
     {
         //
-        try {
-            //code...
-            $user = User::find(Auth::id());
-            if ($user->role_id != 1) {
-                return $this->errorResponse(null, 'Roles not allowed', 403);
-            }
-            $announcements->delete();
-            return $this->succesResponse(null, $announcements->title . 'Deleted ');
-        } catch (\Throwable $th) {
-            //throw $th;
-            return $this->errorResponse($th->getMessage());
-        }
     }
 }
