@@ -15,7 +15,7 @@ class AttendanceController extends BaseController
         # code...
         try {
             //code...
-            
+            // return $request;
             $user = auth()->user();
             $name = $request->file('image')->getClientOriginalName();
             $path = $request->file('image')->store('public/images/attendances/' . $user->company_id . '/' . $user->id);
@@ -123,7 +123,7 @@ class AttendanceController extends BaseController
         try {
             //code...
             // $user = User::find(Auth::id());
-            return $request;
+            // return $request;
             $user = auth()->user();
             DB::beginTransaction();
             $name = $request->file('image')->getClientOriginalName();
@@ -144,7 +144,7 @@ class AttendanceController extends BaseController
                 array(
                     'user_id' => $user->id,
                     'check_in' => $request->check_in,
-                    'notes' => $request->notes,
+                    'notes_check_in' => $request->notes_check_in,
                     'location_check_in' => $request->location_check_in,
                     'image_path_check_in' => $url,
                     'photo_names_check_in' => basename($name),
