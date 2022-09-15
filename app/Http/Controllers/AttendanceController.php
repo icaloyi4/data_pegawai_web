@@ -133,11 +133,12 @@ class AttendanceController extends BaseController
             $publicPath = Storage::url($path);
 
             // this return some like '< APP_URL env variable >/storage/documents/file.ext'
-            $url = asset($publicPath);
+            // $url = asset($publicPath);
+            // return [$url, $path, $publicPath];
             //  return $name;
             $uploadedImageResponse = array(
                 "image_name" => basename($name),
-                "image_url" => $url,
+                "image_url" => $publicPath,
                 "mime" => $image->getClientMimeType()
             );
             DB::table('attendances')->insertGetId(
@@ -146,7 +147,7 @@ class AttendanceController extends BaseController
                     'check_in' => $request->check_in,
                     'notes_check_in' => $request->notes_check_in,
                     'location_check_in' => $request->location_check_in,
-                    'image_path_check_in' => $url,
+                    'image_path_check_in' => $publicPath,
                     'photo_names_check_in' => basename($name),
                     'created_by' => $user->name,
                     'updated_by' => $user->name,
